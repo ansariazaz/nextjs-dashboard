@@ -1,9 +1,19 @@
-import React from 'react'
-
-const Customers = () => {
+import CustomersTable from "@/app/ui/customers/table";
+import { InvoicesTableSkeleton } from "@/app/ui/skeletons";
+import React, { Suspense } from "react";
+import { Metadata } from 'next';
+ 
+export const metadata: Metadata = {
+  title: 'Customers',
+};
+const Customers = async (props:{searchParams?:Promise<{query?:string }>}) => {
+  const searchParams = await props.searchParams;
+  const query = searchParams?.query || '';
   return (
-    <div>Customers</div>
-  )
-}
+    <Suspense fallback={<InvoicesTableSkeleton/>}>
+      <CustomersTable query={query}/>
+    </Suspense>
+  );
+};
 
-export default Customers
+export default Customers;
